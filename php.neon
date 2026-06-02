@@ -1,0 +1,14 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+
+    paths:
+        - app/
+
+    # Level 9 is the highest level (strictest)
+    # Start with level 5 if you have an existing project; go to 9 for new projects.
+    level: 9
+    ignoreErrors:
+        - identifier: missingType.iterableValue
+        - identifier: missingType.generics
