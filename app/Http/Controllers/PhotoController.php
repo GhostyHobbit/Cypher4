@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 class PhotoController extends Controller
 {
     protected array $map = [
-        'user'  => [User::class, 'image_src', 'profile-photos'],
+        'user' => [User::class, 'image_src', 'profile-photos'],
         'entry' => [Entry::class, 'cover_image', 'entry-photos'],
         'stack' => [Stack::class, 'cover_image', 'stack-photos'],
         'entry_component' => [EntryComponent::class, 'image_src', 'entry-component-photos'],
@@ -20,7 +20,7 @@ class PhotoController extends Controller
 
     public function update(Request $request, string $type, string $id)
     {
-        if (!array_key_exists($type, $this->map)) {
+        if (! array_key_exists($type, $this->map)) {
             abort(400, 'Invalid upload type.');
         }
 
@@ -43,7 +43,7 @@ class PhotoController extends Controller
         $path = $request->file('photo')->store($directory, 'public');
 
         $model->update([
-            $column => $path
+            $column => $path,
         ]);
 
         return back()->with('status', "{$type}-photo-updated");

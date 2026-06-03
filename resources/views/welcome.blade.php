@@ -47,29 +47,43 @@
                 <h1 class="text-3xl font-bold mb-8">My Entries</h1>
                 <div class="p-4 w-full grid grid-cols-5 gap-x-11 gap-y-6">
                     @foreach($entries as $entry)
-                        <a href="{{ route('entries.edit', $entry->id) }}" class="flex flex-col items-center">
-                            <div class="relative h-28 aspect-square group" x-data>
-                                <img src="{{ !empty($entry->cover_image) ? asset('storage/' . $entry->cover_image) : asset('images/apollopfp.jpg') }}" class="h-full w-full object-cover rounded-lg" alt="{{ $entry->title }}"/>
-                                <button type="button"
-                                        @click.prevent.stop="$refs.fileInput.click()"
-                                        class="absolute -top-1 -right-1 bg-background-default md:bg-transparent group-hover:bg-background-default rounded-lg p-1 z-10">
-                                    <x-icons.edit class="h-3 w-3 fill-text-default md:fill-transparent group-hover:fill-text-default"/>
-                                </button>
-                                <form action="{{ route('photo.upload', ['type' => 'entry', 'id' => $entry->id]) }}" method="POST" enctype="multipart/form-data" class="hidden">
-                                    @csrf
-                                    <input type="file" name="photo" x-ref="fileInput" @change="$el.form.submit()" accept="image/*">
-                                </form>
-                            </div>                            <div class="max-w-28 relative"
-                                 x-data="{showTooltip: false, isHovered: false, checkAndShow() { if (!this.isHovered) return; const p = this.$refs.titleText; if (p && p.scrollWidth > p.clientWidth) {this.showTooltip = true;}}}"
-                                 @mouseenter="isHovered = true" @mouseenter.debounce.1000ms="checkAndShow()" @mouseleave="isHovered = false; showTooltip = false">
-                                <p x-ref="titleText" class="text-lg mt-2 truncate">{{ $entry->title }}</p>
-
-                                <div x-show="showTooltip" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95 -translate-x-1/2" x-transition:enter-end="opacity-100 scale-100 -translate-x-1/2" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100 -translate-x-1/2" x-transition:leave-end="opacity-0 scale-95 -translate-x-1/2"
-                                     class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-xs rounded-md bg-background-light p-2 text-sm text-text-default shadow-lg border border-accent_purple z-50 whitespace-normal break-words">
-                                    {{ $entry->title }}
+                        <div x-data="{ menuOpen: false, openModal: false, openEdit: false }">
+                            <a href="{{ route('entries.edit', $entry->id) }}" class="flex flex-col items-center">
+                                <div class="relative h-28 aspect-square group" @mouseleave="menuOpen = false">
+                                    <img src="{{ !empty($entry->cover_image) ? asset('storage/' . $entry->cover_image) : asset('images/apollopfp.jpg') }}" class="h-full w-full object-cover rounded-lg" alt="{{ $entry->title }}"/>
+                                    <button type="button" @click.prevent.stop="menuOpen = !menuOpen" class="absolute -top-1 -right-1 bg-background-default md:bg-transparent group-hover:bg-background-default rounded-lg p-1 z-10 transition-colors duration-150">
+                                        <x-icons.ellipsis class="h-4 w-4 rotate-90 fill-text-default md:fill-transparent group-hover:fill-text-default transition-colors duration-150"/>
+                                    </button>
+                                    <div x-show="menuOpen" x-cloak @click.away="menuOpen = false" class="absolute -right-5 top-8 mt-1 w-44 bg-background-light rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-20 overflow-hidden py-1 border border-accent/20">
+                                        <button type="button" @click.prevent.stop="$refs.fileInput.click(); menuOpen = false" class="flex w-full items-center gap-2 px-3 py-2 text-left text-xs text-text-default hover:bg-background-dark transition font-medium">
+                                            <x-icons.edit class="h-3.5 w-3.5 fill-current"/>
+                                            <span>Change cover image</span>
+                                        </button>
+                                        <button type="button" @click.prevent.stop="menuOpen = false; openEdit = true;" class="flex w-full items-center gap-2 px-3 py-2 text-left text-xs text-text-default hover:bg-background-dark transition font-medium">
+                                            <x-icons.list-ul class="h-3.5 w-3.5 fill-current"/>
+                                            <span>Edit entry</span>
+                                        </button>
+                                        <button type="button" @click.prevent.stop="menuOpen = false; openModal = true"
+                                                class="flex w-full items-center gap-2 px-3 py-2 text-left text-xs text-red-500 hover:bg-background-dark transition font-medium">
+                                            <x-icons.trash class="h-3.5 w-3.5 fill-current"/>
+                                            <span>Delete entry</span>
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
+                                <div class="max-w-28 relative"
+                                     x-data="{showTooltip: false, isHovered: false, checkAndShow() { if (!this.isHovered) return; const p = this.$refs.titleText; if (p && p.scrollWidth > p.clientWidth) {this.showTooltip = true;}}}"
+                                     @mouseenter="isHovered = true" @mouseenter.debounce.1000ms="checkAndShow()" @mouseleave="isHovered = false; showTooltip = false">
+                                    <p x-ref="titleText" class="text-lg mt-2 truncate">{{ $entry->title }}</p>
+
+                                    <div x-show="showTooltip" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95 -translate-x-1/2" x-transition:enter-end="opacity-100 scale-100 -translate-x-1/2" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100 -translate-x-1/2" x-transition:leave-end="opacity-0 scale-95 -translate-x-1/2"
+                                         class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-xs rounded-md bg-background-light p-2 text-sm text-text-default shadow-lg border border-accent_purple z-50 whitespace-normal break-words">
+                                        {{ $entry->title }}
+                                    </div>
+                                </div>
+                            </a>
+                            @include('entries.partials.delete_entry_confirm_modal')
+                            <x-entries.edit-entry-modal :stacks="$stacks" :entry="$entry" />
+                        </div>
                     @endforeach
                 </div>
             </div>

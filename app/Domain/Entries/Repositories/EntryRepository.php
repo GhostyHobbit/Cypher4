@@ -2,15 +2,20 @@
 
 namespace App\Domain\Entries\Repositories;
 
+use App\Domain\EntryComponents\Repositories\EntryComponentRepository;
 use App\Models\Entry;
-use Auth;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class EntryRepository
 {
+    public function __construct(
+        private EntryComponentRepository $entryComponentRepository,
+    ) {}
+
     public function getEntries(): Collection
     {
-        return !is_null(Auth::user()) ? Entry::where('user_id', Auth::user()->id)
+        return ! is_null(Auth::user()) ? Entry::where('user_id', Auth::user()->id)
             ->orderBy('title')
             ->get() : Entry::all();
     }
@@ -53,6 +58,17 @@ class EntryRepository
 
         $entry->update([
             'title' => $validated['title'],
+            'stack_id' => $validated['stack_id'],
         ]);
+    }
+
+    public function deleteEntry(int $entryId): void
+    {
+        $entry = $this->getEntryById($entryId);
+        $components = $this->entryComponentRepository->getPageComponents($entry->id);
+        foreach ($components as $component) {
+            $this->entryComponentRepository->deleteEntryComponent($component->id);
+        }
+        $entry->delete();
     }
 }

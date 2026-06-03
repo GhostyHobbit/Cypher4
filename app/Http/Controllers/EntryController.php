@@ -58,6 +58,7 @@ class EntryController extends Controller
     {
         $this->updateEntryAction->handle($entry->id, [
             'title' => $request['title'],
+            'stack_id' => $request['stack_id'],
         ]);
 
         return redirect()->route('entries.edit', $entry->id);
@@ -66,8 +67,11 @@ class EntryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Entry $entry): void
+    public function destroy(Entry $entry): RedirectResponse
     {
-        //
+        $stackId = $entry->stack_id;
+        $this->entryRepository->deleteEntry($entry->id);
+
+        return ! is_null($stackId) ? redirect()->route('stacks.show', $stackId) : redirect()->route('home');
     }
 }

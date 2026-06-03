@@ -22,6 +22,7 @@ readonly class UpdateEntryAction
     {
         return [
             'title' => ['required', 'string'],
+            'stack_id' => ['nullable', 'integer'],
         ];
     }
 }

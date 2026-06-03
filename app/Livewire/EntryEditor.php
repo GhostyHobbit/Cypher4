@@ -56,6 +56,7 @@ class EntryEditor extends Component
         $type = ComponentType::Text;
         if ($this->isImageType) {
             $this->updateComponent();
+
             return;
         }
 
@@ -92,6 +93,7 @@ class EntryEditor extends Component
     {
         if (is_null($id) && is_null($this->editingComponentId)) {
             $this->reset('editingComponentId', 'text', 'image_src', 'isTextType', 'isImageType');
+
             return;
         }
 
@@ -102,7 +104,7 @@ class EntryEditor extends Component
 
     public function updatedNewImageFile(): void
     {
-        $this->validate(['newImageFile' => 'image|max:2048',]);
+        $this->validate(['newImageFile' => 'image|max:2048']);
         $path = $this->newImageFile->store('entry-component-photos', 'public');
         $type = ComponentType::Image;
 

@@ -13,7 +13,7 @@ class AppLayout extends Component
     public function __construct(
         private StackRepository $stackRepository,
         private EntryRepository $entryRepository,
-    ){}
+    ) {}
 
     /**
      * Get the view / contents that represents the component.

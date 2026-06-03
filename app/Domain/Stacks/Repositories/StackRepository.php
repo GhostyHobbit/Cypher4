@@ -3,14 +3,14 @@
 namespace App\Domain\Stacks\Repositories;
 
 use App\Models\Stack;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class StackRepository
 {
     public function getStacks(): Collection
     {
-        return !is_null(Auth::user()) ? Stack::where('user_id', Auth::user()->id)
+        return ! is_null(Auth::user()) ? Stack::where('user_id', Auth::user()->id)
             ->orderBy('title')
             ->get() : Stack::all();
     }

@@ -10,7 +10,7 @@ readonly class CreateStackAction
 {
     public function __construct(
         private StackRepository $stackRepository,
-    ){}
+    ) {}
 
     public function handle(array $data): RedirectResponse
     {

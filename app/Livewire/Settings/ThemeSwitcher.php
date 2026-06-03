@@ -2,10 +2,10 @@
 
 namespace App\Livewire\Settings;
 
+use App\Themes\ThemeRegistry;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Livewire\Component;
-use Illuminate\Support\Facades\Auth;
-use App\Themes\ThemeRegistry;
 
 class ThemeSwitcher extends Component
 {
@@ -19,7 +19,9 @@ class ThemeSwitcher extends Component
     public function selectTheme($themeName): void
     {
         $themes = ThemeRegistry::getMap();
-        if (!array_key_exists($themeName, $themes)) return;
+        if (! array_key_exists($themeName, $themes)) {
+            return;
+        }
 
         $user = Auth::user();
         $user->theme = $themeName;
@@ -34,7 +36,7 @@ class ThemeSwitcher extends Component
     public function render(): View
     {
         return view('livewire.settings.theme-switcher', [
-            'availableThemes' => array_keys(ThemeRegistry::getMap())
+            'availableThemes' => array_keys(ThemeRegistry::getMap()),
         ]);
     }
 }

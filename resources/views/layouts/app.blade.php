@@ -82,7 +82,7 @@
 
                             <div x-show="stackOpen" class="pl-9 space-y-2 mt-1">
                                 @foreach($stack->entries as $entry)
-                                    <a href="{{ route('entries.show', $entry->id) }}"
+                                    <a href="{{ route('entries.edit', $entry->id) }}"
                                        class="block truncate text-text-light hover:text-text-default transition-colors py-0.5">
                                         {{ $entry->title }}
                                     </a>

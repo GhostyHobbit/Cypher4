@@ -19,16 +19,18 @@ class StackController extends Controller
         private readonly StackRepository $stackRepository,
         private readonly CreateStackAction $createStackAction,
         private readonly UpdateStackAction $updateStackAction,
-    ){}
+    ) {}
 
     public function show(int $stackId): View
     {
         $stack = $this->stackRepository->getStackById($stackId);
+        $stacks = $this->stackRepository->getStacks();
         $entries = $this->entryRepository->getEntriesByStackId($stackId);
 
         return view('entries.index')->with([
             'stack' => $stack,
-            'entries' => $entries
+            'entries' => $entries,
+            'stacks' => $stacks,
         ]);
     }
 

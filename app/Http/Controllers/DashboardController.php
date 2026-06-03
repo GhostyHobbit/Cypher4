@@ -11,7 +11,7 @@ class DashboardController extends Controller
     public function __construct(
         private readonly EntryRepository $entryRepository,
         private readonly StackRepository $stackRepository,
-    ){}
+    ) {}
 
     public function index(): View
     {

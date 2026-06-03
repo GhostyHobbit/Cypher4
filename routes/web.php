@@ -15,7 +15,7 @@ Route::middleware('auth')->group(function () {
     // Main dash
     Route::get('/', [DashboardController::class, 'index'])->name('home');
 
-    Route::resource('entries', EntryController::class);
+    Route::resource('entries', EntryController::class)->except('show');
     Route::resource('stacks', StackController::class)->except(['index', 'create']);
 
     Route::post('/photo-upload/{type}/{id}', [PhotoController::class, 'update'])->name('photo.upload');

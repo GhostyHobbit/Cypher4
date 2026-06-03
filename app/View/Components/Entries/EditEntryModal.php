@@ -2,27 +2,34 @@
 
 namespace App\View\Components\Entries;
 
+use App\Domain\Entries\Repositories\EntryRepository;
 use App\Domain\Stacks\Repositories\StackRepository;
+use App\Models\Entry;
 use App\Models\Stack;
 use Closure;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
-class AddEntryModal extends Component
+class EditEntryModal extends Component
 {
     public ?Stack $stack;
 
-    public ?Collection $stacks;
+    public ?Entry $entry;
+
+    public Collection $stacks;
 
     /**
      * Create a new component instance.
      */
     public function __construct(
         ?Stack $stack,
+        ?Entry $entry,
         private StackRepository $stackRepository,
+        private EntryRepository $entryRepository,
     ) {
         $this->stack = $stack;
+        $this->entry = $entry;
     }
 
     /**
@@ -30,10 +37,12 @@ class AddEntryModal extends Component
      */
     public function render(): View|Closure|string
     {
-        $this->stacks = $this->stack ? null : $this->stackRepository->getStacks();
+        $this->stacks = $this->stackRepository->getStacks();
+        $entry = $this->entryRepository->getEntryById($this->entry->id);
 
-        return view('components.entries.add-entry-modal')->with([
+        return view('components.entries.edit-entry-modal')->with([
             'stacks' => $this->stacks,
+            'entry' => $entry,
         ]);
     }
 }

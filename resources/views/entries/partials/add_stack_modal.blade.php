@@ -1,5 +1,5 @@
 <div x-show="open" x-cloak class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-background-default bg-opacity-50" @keydown.escape.window="open = false">
-    <div @click.away="open = false; dropdownOpen = false" class="bg-background-dark rounded-lg shadow-xl transform transition-all sm:max-w-lg sm:w-full p-6">
+    <div @click.away="open = false" class="bg-background-dark rounded-lg shadow-xl transform transition-all sm:max-w-lg sm:w-full p-6">
         <h2 class="text-xl font-medium text-text-default mb-4">Make a New Stack</h2>
 
         <form action="{{ route('stacks.store') }}" method="POST">
