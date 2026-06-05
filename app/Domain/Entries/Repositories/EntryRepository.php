@@ -34,6 +34,14 @@ class EntryRepository
             ->get();
     }
 
+    public function getStackEntriesCount(int $stackId): int
+    {
+        return Entry::query()
+            ->where('stack_id', $stackId)
+            ->where('user_id', Auth::user()->id)
+            ->count();
+    }
+
     public function getStacklessEntries(): Collection
     {
         return Entry::query()

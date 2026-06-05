@@ -3,7 +3,7 @@
 <div class="relative w-full group my-2">
 
     <!-- Clean Image Display Frame -->
-    <div class="relative w-full h-[50vh] rounded-lg overflow-hidden bg-background-dark border border-accent/20">
+    <div class="relative w-full h-[50vh] rounded-lg overflow-hidden bg-background-dark">
         <img src="{{ !empty($component->image_src) ? asset('storage/' . $component->image_src) : asset('images/apollopfp.jpg') }}" alt="entry image asset" class="w-full h-full object-cover"/>
         <div class="absolute top-3 right-3 flex items-center gap-2 group">
             <button type="button" @click.prevent.stop="" wire:click="deleteComponent({{ $component->id }})"
