@@ -12,9 +12,13 @@
                         <x-icons.edit class="fill-transparent ml-1 mb-3 group-hover:fill-text-default"/>
                     </div>
                 </div>
-                <div x-data="{ open: false }">
+                <div x-data="{ open: false, openModal: false }" class="flex">
                     <x-link-button @click="open = true" class="cursor-pointer" :cat="false">+ New Entry</x-link-button>
                     <x-entries.add-entry-modal :stack="$stack"/>
+                    <div class="bg-background-light p-2 rounded-lg mt-2.5 ml-3 cursor-pointer" @click="openModal = true">
+                        <x-icons.trash class="h-5 w-5 fill-text-default hover:fill-red-500" />
+                    </div>
+                    @include('entries.partials.delete_stack_modal', ['entries' => $entries, 'stack' => $stack])
                 </div>
             </div>
             <form x-show="edit" x-cloak @click.away="if (edit) { $el.submit() }" action="{{ route('stacks.update', $stack->id) }}" method="POST" class="col-span-10 mb-4 mr-8">

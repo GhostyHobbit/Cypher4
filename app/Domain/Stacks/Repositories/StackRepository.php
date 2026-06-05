@@ -36,4 +36,10 @@ class StackRepository
             'title' => $validated['title'],
         ]);
     }
+
+    public function deleteStack(int $stackId): void
+    {
+        $stack = $this->getStackById($stackId);
+        $stack->delete();
+    }
 }

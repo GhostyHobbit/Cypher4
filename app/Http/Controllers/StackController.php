@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Domain\Entries\Repositories\EntryRepository;
 use App\Domain\Stacks\Actions\CreateStackAction;
+use App\Domain\Stacks\Actions\DeleteStackAction;
 use App\Domain\Stacks\Actions\UpdateStackAction;
 use App\Domain\Stacks\Repositories\StackRepository;
 use App\Models\Stack;
@@ -19,6 +20,7 @@ class StackController extends Controller
         private readonly StackRepository $stackRepository,
         private readonly CreateStackAction $createStackAction,
         private readonly UpdateStackAction $updateStackAction,
+        private readonly DeleteStackAction $deleteStackAction,
     ) {}
 
     public function show(int $stackId): View
@@ -49,5 +51,18 @@ class StackController extends Controller
         ]);
 
         return redirect()->route('stacks.show', $stack->id);
+    }
+
+    public function destroy(int $stackId): RedirectResponse
+    {
+        $hasEntries = true;
+        $stackEntriesCount = $this->entryRepository->getStackEntriesCount($stackId);
+        if ($stackEntriesCount === 0) {
+            $hasEntries = false;
+        }
+
+        $this->deleteStackAction->handle($stackId, $hasEntries);
+
+        return redirect()->route('home');
     }
 }
