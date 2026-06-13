@@ -4,7 +4,7 @@ namespace App\Domain\EntryComponents\Actions;
 
 use App\Domain\Entries\Enums\ComponentType;
 use App\Domain\EntryComponents\Repositories\EntryComponentRepository;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 class UpdateEntryComponentAction
 {
