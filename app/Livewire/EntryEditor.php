@@ -105,7 +105,7 @@ class EntryEditor extends Component
         $this->reset(['editingComponentId', 'text', 'image_src']);
     }
 
-    public function deleteComponent(?int $id): void
+    public function deleteComponent(?int $id = null): void
     {
         if (is_null($id) && is_null($this->editingComponentId)) {
             $this->reset('editingComponentId', 'text', 'image_src', 'isTextType', 'isImageType');

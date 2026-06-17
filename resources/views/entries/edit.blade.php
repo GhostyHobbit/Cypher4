@@ -3,7 +3,7 @@
         <div class="grid grid-cols-12 items-start">
             <div class="flex items-end pb-8 col-span-10 relative">
                 <div class="relative h-36 w-[60%] group" x-data>
-                    <img src="{{ !empty($entry->cover_image) ? asset('storage/' . $entry->cover_image) : asset('images/apollopfp.jpg') }}" class="h-full w-full object-cover rounded-lg" alt="{{ $entry->title }}"/>
+                    <img src="{{ !empty($entry->cover_image) ? asset('storage/' . $entry->cover_image) : asset('images/entry_default.jpg') }}" class="h-full w-full object-cover rounded-lg" alt="{{ $entry->title }}"/>
                     <button type="button"
                             @click.prevent.stop="$refs.fileInput.click()"
                             class="absolute -top-1 -right-1 bg-background-default md:bg-transparent group-hover:bg-background-default rounded-lg p-1 z-10">

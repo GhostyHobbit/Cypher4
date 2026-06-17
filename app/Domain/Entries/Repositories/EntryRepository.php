@@ -16,7 +16,7 @@ class EntryRepository
     public function getEntries(): Collection
     {
         return ! is_null(Auth::user()) ? Entry::where('user_id', Auth::user()->id)
-            ->orderBy('title')
+//            ->orderBy('title')
             ->get() : Entry::all();
     }
 
@@ -30,7 +30,7 @@ class EntryRepository
         return Entry::query()
             ->where('stack_id', $stackId)
             ->where('user_id', Auth::user()->id)
-            ->orderBy('title')
+//            ->orderBy('title')
             ->get();
     }
 

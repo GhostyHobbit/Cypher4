@@ -92,13 +92,25 @@
                 </div>
             </div>
 
-            <div class="col-span-4 bg-background-light rounded-lg h-64 p-6">
+            <div class="col-span-4 bg-background-light rounded-lg h-64 overflow-hidden text-center">
+                <p class="text-xl py-2 font-bold">Nature</p>
+                <div class="h-44 w-full">
+                    <img src="{{ asset('images/70437489499889.jpg') }}" class="object-contain"/>
+                </div>
             </div>
 
-            <div class="col-span-4 bg-background-light rounded-lg h-64 p-6">
+            <div class="col-span-4 bg-background-light rounded-lg h-64 overflow-hidden text-center">
+                <p class="text-xl py-2 font-bold">Art</p>
+                <div class="h-44 w-full">
+                    <img src="{{ asset('images/apollopfp.jpg') }}" class="object-contain"/>
+                </div>
             </div>
 
-            <div class="col-span-4 bg-background-light rounded-lg h-64 p-6">
+            <div class="col-span-4 bg-background-light rounded-lg h-64 overflow-hidden text-center">
+                <p class="text-xl py-2 font-bold">Tarot Spreads</p>
+                <div class="h-44 w-full">
+                    <img src="{{ asset('images/meep.png') }}" class="object-contain"/>
+                </div>
             </div>
         </div>
 

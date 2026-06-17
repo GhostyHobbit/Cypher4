@@ -33,7 +33,7 @@
                 <div x-data="{ menuOpen: false, openModal: false, openEdit: false }">
                     <a href="{{ route('entries.edit', $entry->id) }}" class="flex flex-col items-center">
                         <div class="relative h-44 aspect-square group" @mouseleave="menuOpen = false">
-                            <img src="{{ !empty($entry->cover_image) ? asset('storage/' . $entry->cover_image) : asset('images/apollopfp.jpg') }}" class="h-full w-full object-cover rounded-lg" alt="{{ $entry->title }}"/>
+                            <img src="{{ !empty($entry->cover_image) ? asset('storage/' . $entry->cover_image) : asset('images/entry_default.jpg') }}" class="h-full w-full object-cover rounded-lg" alt="{{ $entry->title }}"/>
                             <button type="button" @click.prevent.stop="menuOpen = !menuOpen" class="absolute -top-1 -right-1 bg-background-default md:bg-transparent group-hover:bg-background-default rounded-lg p-1 z-10 transition-colors duration-150">
                                 <x-icons.ellipsis class="h-4 w-4 rotate-90 fill-text-default md:fill-transparent group-hover:fill-text-default transition-colors duration-150"/>
                             </button>
