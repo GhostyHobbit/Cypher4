@@ -14,6 +14,12 @@ class EntryEditor extends Component
 {
     use WithFileUploads;
 
+    protected EntryComponentRepository $entryComponentRepo;
+
+    protected CreateEntryComponentAction $createEntryComponentAction;
+
+    protected UpdateEntryComponentAction $updateEntryComponentAction;
+
     public bool $isTextType = false;
 
     public bool $isImageType = false;
@@ -27,6 +33,16 @@ class EntryEditor extends Component
     public int $entryId;
 
     public ?int $editingComponentId = null;
+
+    public function boot(
+        EntryComponentRepository $entryComponentRepo,
+        CreateEntryComponentAction $createEntryComponentAction,
+        UpdateEntryComponentAction $updateEntryComponentAction
+    ): void {
+        $this->entryComponentRepo = $entryComponentRepo;
+        $this->createEntryComponentAction = $createEntryComponentAction;
+        $this->updateEntryComponentAction = $updateEntryComponentAction;
+    }
 
     public function addComponentForm(string $type): void
     {
@@ -69,16 +85,16 @@ class EntryEditor extends Component
     {
         $this->editingComponentId = $componentId;
 
-        $component = app(EntryComponentRepository::class)->getEntryComponentById($componentId);
+        $component = $this->entryComponentRepo->getEntryComponentById($componentId);
         $this->text = $component->text ?? '';
         $this->image_src = $component->image_src ?? '';
     }
 
     public function updateComponent(): void
     {
-        $component = app(EntryComponentRepository::class)->getEntryComponentById($this->editingComponentId);
+        $component = $this->entryComponentRepo->getEntryComponentById($this->editingComponentId);
 
-        app(UpdateEntryComponentAction::class)->handle($component->id, $component->type, $this->text);
+        $this->updateEntryComponentAction->handle($component->id, $component->type, $this->text);
 
         $this->reset('editingComponentId', 'text', 'image_src', 'isTextType', 'isImageType');
     }
@@ -89,7 +105,7 @@ class EntryEditor extends Component
         $this->reset(['editingComponentId', 'text', 'image_src']);
     }
 
-    public function deleteComponent(?int $id): void
+    public function deleteComponent(?int $id = null): void
     {
         if (is_null($id) && is_null($this->editingComponentId)) {
             $this->reset('editingComponentId', 'text', 'image_src', 'isTextType', 'isImageType');
@@ -97,7 +113,7 @@ class EntryEditor extends Component
             return;
         }
 
-        app(EntryComponentRepository::class)->deleteEntryComponent($id ?? $this->editingComponentId);
+        $this->entryComponentRepo->deleteEntryComponent($id ?? $this->editingComponentId);
 
         $this->reset('editingComponentId', 'text', 'image_src', 'isTextType', 'isImageType');
     }
@@ -108,14 +124,14 @@ class EntryEditor extends Component
         $path = $this->newImageFile->store('entry-component-photos', 'public');
         $type = ComponentType::Image;
 
-        app(CreateEntryComponentAction::class)->handle($this->entryId, $type, $path);
+        $this->createEntryComponentAction->handle($this->entryId, $type, $path);
 
         $this->reset(['newImageFile', 'isImageType']);
     }
 
     public function render(): View
     {
-        $components = app(EntryComponentRepository::class)->getPageComponents($this->entryId);
+        $components = $this->entryComponentRepo->getPageComponents($this->entryId);
 
         return view('livewire.entry-editor')->with(compact('components'));
     }

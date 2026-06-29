@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EntryController;
+use App\Http\Controllers\JournalController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StackController;
@@ -17,6 +19,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('entries', EntryController::class)->except('show');
     Route::resource('stacks', StackController::class)->except(['index', 'create']);
+    Route::resource('journals', JournalController::class)->except(['index', 'create']);
+    Route::resource('pages', PageController::class);
 
     Route::post('/photo-upload/{type}/{id}', [PhotoController::class, 'update'])->name('photo.upload');
 

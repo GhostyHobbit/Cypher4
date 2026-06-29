@@ -30,7 +30,7 @@ class EntryRepository
         return Entry::query()
             ->where('stack_id', $stackId)
             ->where('user_id', Auth::user()->id)
-            ->orderBy('title')
+//            ->orderBy('title')
             ->get();
     }
 

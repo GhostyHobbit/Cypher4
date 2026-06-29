@@ -2,18 +2,18 @@
 
 namespace Database\Factories;
 
-use App\Models\Entry;
-use Carbon\Carbon;
+use App\Models\Stack;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Carbon;
 
-class EntryFactory extends Factory
+class StackFactory extends Factory
 {
-    protected $model = Entry::class;
+    protected $model = Stack::class;
 
     public function definition(): array
     {
         return [
-            'title' => $this->faker->sentence(),
+            'title' => $this->faker->word(),
             'user_id' => $this->faker->randomNumber(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),

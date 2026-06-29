@@ -44,7 +44,7 @@
 
     <div class="grid grid-cols-6 flex-1 overflow-hidden">
         <!-- Sidebar -->
-        <div class="bg-background-dark pl-6 pr-12 space-y-4 overflow-y-auto">
+        <div class="bg-background-dark pl-6 pr-12 space-y-4 overflow-y-auto scrollbar-hide">
             <div x-data="{ dropdownOpen: false }" class="relative w-full my-6 select-none">
                 <div @click="dropdownOpen = !dropdownOpen" class="bg-accent w-full rounded-full py-2 text-center cursor-pointer hover:opacity-90 transition-opacity flex items-center justify-center gap-1">
                     <p class="text-background-default text-lg font-semibold">+ New</p>
@@ -58,6 +58,10 @@
                     <div x-data="{ open: false }" class="py-3 pl-6 text-lg hover:bg-background-dark">
                         <p @click="open = true" class="cursor-pointer">+ Stack</p>
                         @include('entries.partials.add_stack_modal')
+                    </div>
+                    <div x-data="{ open: false }" class="py-3 pl-6 text-lg hover:bg-background-dark">
+                        <p @click="open = true" class="cursor-pointer">+ Journal</p>
+                        @include('journals.partials.add_journal_modal')
                     </div>
                 </div>
             </div>
@@ -104,6 +108,22 @@
                         <a href="{{ route('entries.edit', $entry->id) }}"
                            class="block truncate text-text-light hover:text-text-default transition-colors py-0.5">
                             {{ $entry->title }}
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+            <div x-data="{ open: false }" class="pb-10">
+                <div class="flex gap-2 items-center cursor-pointer select-none" @click="open = !open">
+                    <div class="transform transition-transform duration-200 -rotate-90" :class="{ 'rotate-0': open }">
+                        <x-icons.chevron class="w-5" />
+                    </div>
+                    <p class="text-xl">My Journals</p>
+                </div>
+                <div x-show="open" x-cloak class="pl-6 space-y-2 mt-2">
+                    @foreach($journals as $journal)
+                        <a href="{{ route('journals.show', $journal->id) }}"
+                           class="block truncate text-text-light hover:text-text-default transition-colors py-0.5">
+                            {{ $journal->title }}
                         </a>
                     @endforeach
                 </div>

@@ -10,6 +10,7 @@ class Page extends Model
     protected $fillable = [
         'subject',
         'content',
+        'journal_id',
     ];
 
     public function journal(): BelongsTo

@@ -11,6 +11,7 @@ class Journal extends Model
     protected $fillable = [
         'title',
         'cover_image',
+        'user_id',
     ];
 
     public function user(): BelongsTo
